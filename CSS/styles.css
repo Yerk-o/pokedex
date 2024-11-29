@@ -6,7 +6,7 @@ body {
     padding: 0;
     box-sizing: border-box;
 }
- 
+
 /* General button styles */
 button {
     color: green;
@@ -18,14 +18,14 @@ button {
     cursor: pointer;
     transition: all 0.3s ease;
 }
- 
+
 /* Image styling */
 img {
-    width: 150px;
+    width: 160px;
     height: auto;
-    margin: 10px 0;
+    margin: 20px 0;
 }
- 
+
 /* Type-specific button styles */
 .grass-button {
     color: green;
@@ -52,7 +52,7 @@ img {
 }
  
 .Psychic-button {
-    color: white;
+    color: red;
     background-color: rgb(229, 145, 255);
     border: 2px solid rgb(200, 100, 240);
 }
@@ -80,24 +80,23 @@ main section {
     padding: 20px;
     text-align: center;
 }
- 
+
 main section {
     padding: 20px;
     text-align: center;
 }
- 
+
 main section img {
     margin: 10px 0;
     width: 200px;
     height: auto;
 }
- 
+
 main section h2 {
     font-size: 1.5rem;
     color: black;
     margin-bottom: 10px;
 }
- 
 main section p {
     font-size: 1rem;
     margin: 5px 0;
