@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Pokédex</title>
+</head>
+<body>
+    <header>
+        <img src="./img/Logo.png" alt="Pokedex Logo">
+        <nav>
+            <button class="fire-button" onclick="fetchPokemonByType('fire')">Fire</button>
+            <button class="water-button" onclick="fetchPokemonByType('water')">Water</button>
+            <button class="electric-button" onclick="fetchPokemonByType('electric')">Electric</button>
+            <button class="psychic-button" onclick="fetchPokemonByType('psychic')">Psychic</button>
+            <button class="ghost-button" onclick="fetchPokemonByType('ghost')">Ghost</button>
+        </nav>
+        <input type="text" id="pokemonSearch" placeholder="Search Pokémon by name or ID">
+        <button onclick="fetchPokemon()">Search</button>
+    </header>
+    <main>
+        <section id="pokemonDetails">
+            <p>Select a Pokémon type or search to view its details!</p>
+        </section>
+    </main>
+    <script>
+        const API_URL = 'https://pokeapi.co/api/v2/';
+
+        async function fetchPokemon() {
+            const query = document.getElementById('pokemonSearch').value.trim().toLowerCase();
+            if (!query) {
+                alert('Please enter a Pokémon name or ID.');
+                return;
+            }
+            try {
+                const response = await fetch(`${API_URL}pokemon/${query}`);
+                if (!response.ok) throw new Error('Pokémon not found.');
+                const data = await response.json();
+                displayPokemon(data);
+            } catch (error) {
+                alert(error.message);
+            }
+        }
+
+        async function fetchPokemonByType(type) {
+            try {
+                const response = await fetch(`${API_URL}type/${type}`);
+                const data = await response.json();
+                const randomPokemon = data.pokemon[Math.floor(Math.random() * data.pokemon.length)].pokemon;
+                const pokemonResponse = await fetch(randomPokemon.url);
+                const pokemonData = await pokemonResponse.json();
+                displayPokemon(pokemonData);
+            } catch (error) {
+                alert('Error fetching Pokémon by type.');
+            }
+        }
+
+        function displayPokemon(data) {
+            const section = document.getElementById('pokemonDetails');
+            const types = data.types.map(typeInfo => typeInfo.type.name).join(', ');
+            const abilities = data.abilities.map(abilityInfo => abilityInfo.ability.name).join(', ');
+            const stats = data.stats.map(statInfo => `${statInfo.stat.name}: ${statInfo.base_stat}`).join('<br>');
+
+            section.innerHTML = `
+                <h2>${data.name.toUpperCase()}</h2>
+                <img src="${data.sprites.front_default}" alt="${data.name}">
+                <p><strong>Types:</strong> ${types}</p>
+                <p><strong>Abilities:</strong> ${abilities}</p>
+                <p><strong>Stats:</strong><br>${stats}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
